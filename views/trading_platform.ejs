@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script type="text/javascript" src="/jquery.min.js"></script>
+    <script type="text/javascript" src="/wangEditor.min.js"></script>
+    <link href="/common.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<div class="container">
+    <ul class="posts">
+        <% for (var i=0;i<accounts.length;i++){%>
+            <li class="lists">
+                <h2 class="title" style="cursor:pointer;display: inline-block;margin: 10px auto;" onclick="window.location.href = '/account_detail/<%= accounts[i].id %>'">标题：<%= accounts[i].name %></h2>
+                <button class="btn" onclick="window.location.href = '/account_add'">添加</button>
+                <button id="del" onclick="window.location.href = '/account_revise/<%= accounts[i].id %>'"> 修改</button>
+                <button id="del" onclick="delete_article(<%= accounts[i].id %>)"> 删除</button>
+                <p class="time">价格：<%= accounts[i].price %></p>
+                <p class="category">门派：<%= accounts[i].sect %></p>
+                <p class="content" style="border: 1px solid red;">体型：<%- accounts[i].body %></p>
+                <p class="time">区服：<%= accounts[i].area %></p>
+                <p class="category">外观：<%= accounts[i].clothing %></p>
+                <div class="content" style="border: 1px solid red;">描述：<%- accounts[i].describe %></div>
+            </li>
+        <% } %>
+    </ul>
+</div>
+<script type="text/javascript">
+    function delete_article(id) {
+        $.ajax({
+            url: '/art',
+            type: 'POST',
+            cache: false,
+            data: {id:id},
+            success: function (msg) {
+                if (msg.code == 200) {
+                    alert('删除文章成功')
+                    setTimeout(function() {
+                        location.reload()
+                    }, 1000)
+                } else {
+                    alert('删除文章失败');
+                }
+            },
+            error: function () {
+                alert('异常')
+            }
+        })
+    }
+</script>
+
+
+</body>
+</html>

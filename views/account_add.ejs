@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script type="text/javascript" src="/jquery.min.js"></script>
+    <script type="text/javascript" src="/wangEditor.min.js"></script>
+    <link href="/common.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<div class="container">
+
+    <form style="width:100%;" method="post" id="form2">
+        <div>
+            <label>账号名：</label>
+            <input placeholder="请输入标题" type="text" name="name">
+        </div>
+        <div>
+            <label>价格：</label>
+            <input placeholder="请输入类别" type="text" name="price">
+        </div>
+        <div>
+            <label>门派：</label>
+            <input placeholder="请输入标题" type="text" name="sect">
+        </div>
+        <div>
+            <label>体型：</label>
+            <input placeholder="请输入类别" type="text" name="body">
+        </div>
+        <div>
+            <label>区服：</label>
+            <input placeholder="请输入标题" type="text" name="area">
+        </div>
+        <div>
+            <label>外观：</label>
+            <input placeholder="请输入类别" type="text" name="clothing">
+        </div>
+        <div>
+            <label>装备：</label>
+            <input placeholder="请输入类别" type="text" name="equipment">
+        </div>
+        <div>
+            <label>描述：</label>
+            <input placeholder="请输入描述" type="text" name="sketch">
+        </div>
+        <button type="submit" onclick="add_article()">发表</button>
+    </form>
+</div>
+
+<script type="text/javascript">
+    function add_article() {
+        $.ajax({
+            type: 'post',
+            url: '/account_adds',
+            data: $("#form2").serialize(),
+            dataType: "json",
+            success: function (msg) {
+                if (msg.code == 200){
+                    alert("上传成功！");
+                    window.location.href = "/account";
+                }else{
+                    alert("上传失败！");
+                }
+            },
+            error: function () {
+                alert("异常");
+            }
+        });
+        console.log($("#form2").serialize());
+    }
+
+</script>
+
+</body>
+</html>
