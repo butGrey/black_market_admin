@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script type="text/javascript" src="/jquery.min.js"></script>
+    <script type="text/javascript" src="/wangEditor.min.js"></script>
+    <link href="/common.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="container">
+    <form class="form create" method="post">
+        <div>
+            <label>用户名：</label>
+            <input placeholder="请输入用户名" type="text" name="name">
+        </div>
+        <div>
+            <label>密码：</label>
+            <input placeholder="请输入密码" class="password" type="password" name="password">
+        </div>
+        <div>
+            <label>重复密码：</label>
+            <input placeholder="请确认密码" class="repeatpass" type="password" name="repeatpass">
+        </div>
+        <div class="submit">注册</div>
+    </form>
+</div>
+<script>
+    $('.submit').click(function(){
+        if ($('input[name=name]').val().trim() == '') {
+            alert('请输入用户名！')
+        }else if($('input[name=name]').val().match(/[<'">]/g)){
+            alert('请输入合法字符！')
+        }else{
+            $.ajax({
+                url: "/register",
+                data: {
+                    name: $('input[name=name]').val(),
+                    password: $('input[name=password]').val(),
+                    repeatpass: $('input[name=repeatpass]').val(),
+                },
+                type: "POST",
+                cache: false,
+                dataType: 'json',
+                success: function (msg) {
+                    if(msg.code == 200){
+                        alert('注册成功')
+                        setTimeout(function(){
+                            window.location.href = "/login"
+                        },1000)
+
+                    }else{
+                        alert(msg.message)
+                    }
+                },
+                error: function () {
+                    alert('异常');
+                }
+            })
+        }
+    })
+</script>
+</body>
+</html>

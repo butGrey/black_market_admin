@@ -10,9 +10,6 @@ const config = require('./config/default.js');
 const cors = require('koa-cors');
 var app = new Koa();
 
-//跨域
-app.use(cors());
-app.use(bodyParser());
 // session存储配置
 const sessionMysqlConfig= {
     user: config.database.USERNAME,
@@ -25,6 +22,9 @@ app.use(session({
     key: 'USER_SID',
     store: new MysqlStore(sessionMysqlConfig)
 }));
+//跨域
+app.use(cors());
+app.use(bodyParser());
 
 app.use(staticCache(path.join(__dirname, './public'), { dynamic: true }, {
     maxAge: 365 * 24 * 60 * 60
